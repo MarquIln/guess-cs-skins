@@ -1,11 +1,10 @@
 import { CardSkin } from "@/components/CardSkin";
+import { Header } from "@/components/Header";
 
 export default function Home() {
   return (
-    <div>
-      <h1>
-        Hello
-      </h1>
+    <div className="flex flex-col justify-center">
+      <Header name="Advinhe a skin do dia!"/>
       <CardSkin />
     </div>
   );
