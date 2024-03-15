@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 type InputProps = {
-  onSubmit: (inputValue: string) => void;
+  onSubmit: (response: string) => void;
 };
 
 export function Input({ onSubmit }: InputProps) {
@@ -11,7 +11,8 @@ export function Input({ onSubmit }: InputProps) {
     setInputValue(e.target.value);
   }
 
-  function handleSubmit() {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     onSubmit(inputValue);
     setInputValue('');
   }
@@ -31,4 +32,4 @@ export function Input({ onSubmit }: InputProps) {
       </button>
     </form>
   );
-};
+}
