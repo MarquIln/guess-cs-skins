@@ -1,25 +1,19 @@
 'use client'
 import { getAllSkins } from "@/services/services"
+import { Skin } from "@/types/ISkin"
 import { useEffect, useState } from "react"
 import { Input } from "./Input"
-
-type Skin = {
-  name: string
-  image: string
-  price: number
-  weapon: string
-}
 
 export function CardSkin() {
   const [skins, setSkins] = useState<Skin[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [zoomLevel, setZoomLevel] = useState(5)
+  const [blurLevel, setBlurLevel] = useState(50)
   const [guessCorrect, setGuessCorrect] = useState(false)
   const [currentSkinName, setCurrentSkinName] = useState("")
-  const [minZoomLevel] = useState(1)
+  const [minBlurLevel] = useState(0)
 
-  const indexOfFirstSkin = currentPage - 1
-  const currentSkins = skins.slice(indexOfFirstSkin, currentPage)
+  const skinIndex = currentPage - 1
+  const currentSkins = skins.slice(skinIndex, currentPage)
 
   useEffect(() => {
     getAllSkins().then((response) => {
@@ -51,56 +45,42 @@ export function CardSkin() {
   function nextPage() {
     if (currentPage < Math.ceil(skins.length)) {
       setCurrentPage(currentPage + 1)
-    }
-  }
-
-  function prevPage() {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setBlurLevel(50)
     }
   }
 
   function handleGuessSubmit(guessSkin: string) {
-    const currentSkin = skins[currentPage - 1]
-    const skinNameParts = currentSkin?.name.split('|')
+    const currentSkin = skins[currentPage - 1];
 
-    if (skinNameParts && skinNameParts.length === 2) {
-      const correctGuess = skinNameParts[1].trim().toLocaleLowerCase()
-      guessSkin = guessSkin.trim().toLocaleLowerCase()
+    if (currentSkin) {
+      const correctGuess = currentSkin.pattern.name.trim().toLowerCase();
+      guessSkin = guessSkin.trim().toLowerCase();
 
       if (correctGuess === guessSkin) {
-        setGuessCorrect(true)
-        console.log("Você acertou!")
+        setGuessCorrect(true);
+        console.log("Você acertou!");
       } else {
-        console.log(correctGuess, guessSkin)
-        const newZoomLevel = zoomLevel - 0.2
-        setZoomLevel(newZoomLevel < minZoomLevel ? minZoomLevel : newZoomLevel)
-        console.log("Você errou!")
+        const newBlurLevel = blurLevel - 5 > minBlurLevel ? blurLevel - 5 : minBlurLevel;
+        setBlurLevel(newBlurLevel);
+        console.log("Você errou!");
       }
     }
   }
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-700 text-white">
       <div className="bg-gray-900 p-6 rounded-lg shadow-lg">
         {currentSkins.map((skin, index) => (
           <div key={index} className="mb-6" style={{ width: "100%", overflow: "hidden" }}>
-            <div style={{ transform: `scale(${zoomLevel})`, transition: "transform 0.5s ease" }}>
-              <img src={skin.image} alt="A imagem não carregou." className="rounded-lg shadow-md" style={{ transform: `scale(${zoomLevel})`, transition: "transform 0.5s ease" }} />
+            <div style={{ filter: `blur(${blurLevel}px)`, transition: "filter 0.5s ease" }}>
+              <img src={skin.image} alt="A imagem não carregou." className="rounded-lg shadow-md" />
             </div>
             <p className="mt-2">Name: {currentSkinName}</p>
           </div>
         ))}
         <div>
           <Input onSubmit={handleGuessSubmit} />
-          <div className="flex justify-between mt-4">
-            <button onClick={prevPage} disabled={currentPage === 1} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              Previous
-            </button>
-            <button onClick={nextPage} disabled={currentPage === Math.ceil(skins.length)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              Next
-            </button>
-          </div>
         </div>
       </div>
     </div>
