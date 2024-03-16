@@ -1,9 +1,8 @@
 'use client'
 
-import { Button } from "@/components/Button"
 import { CardSkin } from "@/components/CardSkin"
 import { Header } from "@/components/Header"
-import { Input } from "@/components/Input"
+import { InputContainer } from "@/components/InputContainer"
 import { getAllSkins } from "@/services/services"
 import { Skin } from "@/types/ISkin"
 import { useEffect, useState } from "react"
@@ -40,7 +39,7 @@ export default function Home() {
     const currentSkin = skins[currentPage - 1]
 
     if (currentSkin) {
-      const correctGuess = currentSkin.pattern.name.trim().toLowerCase()
+      const correctGuess = currentSkin.weapon.name.trim().toLowerCase() + " " + currentSkin.pattern.name.trim().toLowerCase()
       guessSkin = guessSkin.trim().toLowerCase()
 
       if (correctGuess === guessSkin) {
@@ -51,7 +50,7 @@ export default function Home() {
         const newBlurLevel = blurLevel - (blurLevel * 20 / 100) > minBlurLevel ? blurLevel - (blurLevel * 20 / 100) : minBlurLevel
         setBlurLevel(newBlurLevel)
         console.log("Você errou!")
-        console.log(`A resposta correta era: ${currentSkin.pattern.name}`)
+        console.log(`A resposta correta era: ${currentSkin.weapon.name + " " + currentSkin.pattern.name}`)
       }
     }
   }
@@ -65,7 +64,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex bg-gray-700 flex-col">
+    <div className="bg-gray-700 h-screen">
       <Header name="Advinhe a skin do dia!" />
       <div>
         <CardSkin
@@ -74,7 +73,7 @@ export default function Home() {
           blurLevel={blurLevel}
         />
         <div className="justify-center flex">
-          <Input onSubmit={handleGuessSubmit} />
+          <InputContainer onSubmit={handleGuessSubmit} />
         </div>
       </div>
     </div>
