@@ -1,5 +1,6 @@
 'use client'
-type HeaderProps = {
+
+interface HeaderProps {
   name: string
 }
 export function Header({ name }: HeaderProps) {
