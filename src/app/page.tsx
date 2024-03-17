@@ -37,20 +37,15 @@ export default function Home() {
 
   function handleGuessSubmit(guessSkin: string) {
     const currentSkin = skins[currentPage - 1]
-
     if (currentSkin) {
       const correctGuess = currentSkin.weapon.name.trim().toLowerCase() + " " + currentSkin.pattern.name.trim().toLowerCase()
       guessSkin = guessSkin.trim().toLowerCase()
-
       if (correctGuess === guessSkin) {
         setGuessCorrect(true)
         nextPage()
-        console.log("Você acertou!")
       } else {
-        const newBlurLevel = blurLevel - (blurLevel * 20 / 100) > minBlurLevel ? blurLevel - (blurLevel * 20 / 100) : minBlurLevel
+        const newBlurLevel = blurLevel - 7 > minBlurLevel ? blurLevel - 7 : minBlurLevel
         setBlurLevel(newBlurLevel)
-        console.log("Você errou!")
-        console.log(`A resposta correta era: ${currentSkin.weapon.name + " " + currentSkin.pattern.name}`)
       }
     }
   }
