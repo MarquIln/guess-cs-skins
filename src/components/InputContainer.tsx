@@ -3,6 +3,7 @@ import { useDebounce } from '@/hooks/useDebounce'
 import { getAllSkins } from '@/services/services'
 import { Input } from './Input'
 import { GuessList } from './GuessList'
+import { ResponseList } from './ResponseList'
 
 interface InputContainerProps {
   onSubmit: (response: string) => void
@@ -10,9 +11,11 @@ interface InputContainerProps {
 
 export function InputContainer({ onSubmit }: InputContainerProps) {
   const [inputValue, setInputValue] = useState('')
-  const debouncedInputValue = useDebounce(inputValue, 300)
+  const debouncedInputValue = useDebounce(inputValue, 500)
   const [guesses, setGuesses] = useState<string[]>([])
   const [isGuessListOpen, setIsGuessListOpen] = useState(false) 
+  const [responses, setResponses] = useState<string[]>([])
+  const [selectedSkin, setSelectedSkin] = useState<string | null>(null);
 
   useEffect(() => {
     if (debouncedInputValue) {
@@ -48,21 +51,25 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
   }
 
   function handleSubmit() {
-    onSubmit(inputValue)
-    setInputValue('')
-    setIsGuessListOpen(false) 
+    if (guesses.length > 0) {
+      handleGuessClick(guesses[0])
+    }
+      setInputValue('')
+
   }
 
   function handleGuessClick(guess: string) {
-    onSubmit(guess)
-    setInputValue('')
-    setIsGuessListOpen(false) 
+    setSelectedSkin(guess);
+    setResponses((prevResponses) => [...prevResponses, guess]);
+    onSubmit(guess);
+    setIsGuessListOpen(false)
   }
 
   return (
-    <div>
-      <Input value={inputValue} onChange={handleInputChange} onSubmit={handleSubmit} />
+    <div className='py-2'>
+      <Input value={inputValue} onChange={handleInputChange} onEnterPress={handleSubmit} />
       <GuessList guesses={guesses} isListOpen={isGuessListOpen} onGuessClick={handleGuessClick} />
+      <ResponseList responses={responses} selectedSkin={selectedSkin} />
     </div>
   )
 }
