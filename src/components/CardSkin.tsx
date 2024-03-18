@@ -1,7 +1,7 @@
 'use client'
 import { Skin } from "@/types/ISkin"
 import { CardSkinProps } from "@/types/ISkinCard"
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 export function CardSkin({ skins, page, blurLevel }: CardSkinProps) {
   const [currentSkin, setCurrentSkin] = useState<Skin>()
