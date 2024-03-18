@@ -1,4 +1,3 @@
-import { Button } from "./Button"
 interface ResponseListProps {
   responses: string[]
   selectedSkin: string | null

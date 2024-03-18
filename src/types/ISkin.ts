@@ -17,4 +17,5 @@ export type Skin = {
   rarity: {
     name: string
   }
+  phase?: string
 }

@@ -38,7 +38,9 @@ export default function Home() {
   function handleGuessSubmit(guessSkin: string) {
     const currentSkin = skins[currentPage - 1]
     if (currentSkin) {
-      const correctGuess = currentSkin.weapon.name.trim().toLowerCase() + " " + currentSkin.pattern.name.trim().toLowerCase()
+      const correctGuess = currentSkin.weapon.name.trim().toLowerCase() + " " + 
+      currentSkin.pattern.name.trim().toLowerCase() + " " + currentSkin.phase?.trim().toLowerCase()
+
       guessSkin = guessSkin.trim().toLowerCase()
       if (correctGuess === guessSkin) {
         setGuessCorrect(true)

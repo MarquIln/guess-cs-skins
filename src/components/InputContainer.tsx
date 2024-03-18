@@ -13,7 +13,7 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
   const [inputValue, setInputValue] = useState('')
   const debouncedInputValue = useDebounce(inputValue, 500)
   const [guesses, setGuesses] = useState<string[]>([])
-  const [isGuessListOpen, setIsGuessListOpen] = useState(false) 
+  const [isGuessListOpen, setIsGuessListOpen] = useState(false)
   const [responses, setResponses] = useState<string[]>([])
   const [selectedSkin, setSelectedSkin] = useState<string | null>(null);
 
@@ -31,18 +31,26 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
         const skins = response.data
         const matchingGuesses = skins.filter((skin: any) =>
           skin.pattern && skin.pattern.name && skin.weapon && skin.weapon.name &&
-          (skin.weapon.name.trim().toLowerCase() + " " + skin.pattern.name.trim().toLowerCase()).includes(query.toLowerCase())
+          (skin.weapon.name.trim().toLowerCase() + " " + skin.pattern.name.trim().toLowerCase() + " "
+            + skin.phase?.trim().toLowerCase()).includes(query.toLowerCase())
         )
-        setGuesses(matchingGuesses.map((skin: any) => {
-          const correctGuess = skin.weapon.name.trim() + " " + skin.pattern.name.trim()
-          return correctGuess.charAt(0).toUpperCase() + correctGuess.slice(1)
-        }))
-        setIsGuessListOpen(true) 
+        setGuesses(
+          matchingGuesses.map((skin: any) => {
+            const correctGuess =
+              skin.weapon.name.trim() +
+              " " +
+              skin.pattern.name.trim() +
+              (skin.phase ? " " + skin.phase.trim() : "")
+            return correctGuess.charAt(0).toUpperCase() + correctGuess.slice(1)
+          })
+        );
+
+        setIsGuessListOpen(true)
       })
       .catch((error) => {
         console.error('Erro ao buscar as opções:', error)
         setGuesses([])
-        setIsGuessListOpen(false) 
+        setIsGuessListOpen(false)
       })
   }
 
@@ -54,8 +62,7 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
     if (guesses.length > 0) {
       handleGuessClick(guesses[0])
     }
-      setInputValue('')
-
+    setInputValue('')
   }
 
   function handleGuessClick(guess: string) {
@@ -63,6 +70,7 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
     setResponses((prevResponses) => [...prevResponses, guess]);
     onSubmit(guess);
     setIsGuessListOpen(false)
+    setInputValue('')
   }
 
   return (
