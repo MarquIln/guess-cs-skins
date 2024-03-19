@@ -28,6 +28,7 @@ export default function Home() {
       setCurrentPage(currentPage + 1)
       setBlurLevel(50)
       setCorrectGuess(false)
+      setResponses([])
     }
   }
 
@@ -35,8 +36,7 @@ export default function Home() {
     const currentSkin = skins[currentPage - 1]
     if (currentSkin) {
       const correctGuess =
-        currentSkin.weapon.name.trim() +
-        " " +
+        currentSkin.weapon.name.trim() + " " +
         (currentSkin.pattern ? currentSkin.pattern.name.trim() : "") +
         (currentSkin.phase ? " " + currentSkin.phase.trim() : "")
       guessSkin = guessSkin.trim()
@@ -45,7 +45,6 @@ export default function Home() {
         setBlurLevel(0)
         setTimeout(() => {
           nextPage()
-          setResponses([])
         }, 2000)
       } else {
         const newBlurLevel = blurLevel - 10 > minBlurLevel ? blurLevel - 10 : minBlurLevel

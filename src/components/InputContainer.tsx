@@ -10,7 +10,7 @@ interface InputContainerProps {
 
 export function InputContainer({ onSubmit }: InputContainerProps) {
   const [inputValue, setInputValue] = useState('')
-  const debouncedInputValue = useDebounce(inputValue, 500)
+  const debouncedInputValue = useDebounce(inputValue, 1000)
   const [guesses, setGuesses] = useState<string[]>([])
   const [isGuessListOpen, setIsGuessListOpen] = useState(false)
 
@@ -70,7 +70,7 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
   }
 
   return (
-    <div className='py-2'>
+    <div className='flex py-2 flex-col'>
       <Input value={inputValue} onChange={handleInputChange} onEnterPress={handleSubmit} />
       <GuessList guesses={guesses} isListOpen={isGuessListOpen} onGuessClick={handleGuessClick} />
     </div>
