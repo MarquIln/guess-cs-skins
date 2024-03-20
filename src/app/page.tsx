@@ -1,7 +1,9 @@
 'use client'
+import { Button } from "@/components/Button"
 import { CardSkin } from "@/components/CardSkin"
 import { Header } from "@/components/Header"
 import { InputContainer } from "@/components/InputContainer"
+import { Modal } from "@/components/Modal"
 import { ResponseList } from "@/components/ResponseList"
 import { getAllSkins } from "@/services/services"
 import { Skin } from "@/types/ISkin"
@@ -15,6 +17,7 @@ export default function Home() {
   const [responses, setResponses] = useState<string[]>([])
   const [selectedSkin, setSelectedSkin] = useState<string | null>(null)
   const [correctGuess, setCorrectGuess] = useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   useEffect(() => {
     getAllSkins().then((response) => {
@@ -75,8 +78,15 @@ export default function Home() {
         <div className="justify-center flex">
           <ResponseList responses={responses} selectedSkin={selectedSkin} />
         </div>
+        <div className="flex justify-center py-10">
+          <Button onClick={() => setModalOpen(true)} content="Hints!" />
+        </div>
       </div>
+        <div className="flex justify-center">
+          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}/>
+        </div>
       {correctGuess && <div className="absolute inset-0 bg-black opacity-0" style={{ transition: "opacity 5s" }} />}
     </div>
   )
 }
+
