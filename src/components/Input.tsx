@@ -23,7 +23,7 @@ export function Input({ value, onChange, onEnterPress }: InputProps) {
       value={value}
       onChange={handleInputChange}
       onKeyDown={handleKeyDown}
-      className="border border-gray-400 rounded px-2 py-1 text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-64"
+      className="w-64 rounded border border-gray-400 px-2 py-1 text-black focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
     />
   )
 }

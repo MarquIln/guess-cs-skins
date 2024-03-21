@@ -12,5 +12,5 @@ export function Header({ name }: HeaderProps) {
         </h2>
       </div>
     </header>
-  );
+  )
 }

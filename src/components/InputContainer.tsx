@@ -26,22 +26,30 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
     getAllSkins()
       .then((response) => {
         const skins = response.data
-        const matchingGuesses = skins.filter((skin: any) =>
-          skin.pattern && skin.pattern.name && skin.weapon && skin.weapon.name &&
-          (skin.weapon.name.trim().toLowerCase() + " "
-            + skin.pattern.name.trim().toLowerCase() + " "
-            + skin.phase?.trim().toLowerCase()).includes(query.toLowerCase())
+        const matchingGuesses = skins.filter(
+          (skin: any) =>
+            skin.pattern &&
+            skin.pattern.name &&
+            skin.weapon &&
+            skin.weapon.name &&
+            (
+              skin.weapon.name.trim().toLowerCase() +
+              ' ' +
+              skin.pattern.name.trim().toLowerCase() +
+              ' ' +
+              skin.phase?.trim().toLowerCase()
+            ).includes(query.toLowerCase()),
         )
         setGuesses(
           matchingGuesses.map((skin: any) => {
             const correctGuess =
               skin.weapon.name.trim() +
-              " " +
+              ' ' +
               skin.pattern.name.trim() +
-              (skin.phase ? " " + skin.phase.trim() : "")
+              (skin.phase ? ' ' + skin.phase.trim() : '')
             return correctGuess.charAt(0).toUpperCase() + correctGuess.slice(1)
-          })
-        );
+          }),
+        )
 
         setIsGuessListOpen(true)
       })
@@ -64,15 +72,23 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
   }
 
   function handleGuessClick(guess: string) {
-    onSubmit(guess);
+    onSubmit(guess)
     setIsGuessListOpen(false)
     setInputValue('')
   }
 
   return (
-    <div className='flex py-2 flex-col'>
-      <Input value={inputValue} onChange={handleInputChange} onEnterPress={handleSubmit} />
-      <GuessList guesses={guesses} isListOpen={isGuessListOpen} onGuessClick={handleGuessClick} />
+    <div className="flex flex-col py-2">
+      <Input
+        value={inputValue}
+        onChange={handleInputChange}
+        onEnterPress={handleSubmit}
+      />
+      <GuessList
+        guesses={guesses}
+        isListOpen={isGuessListOpen}
+        onGuessClick={handleGuessClick}
+      />
     </div>
   )
 }

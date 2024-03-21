@@ -5,7 +5,7 @@ export type Skin = {
   weapon: {
     name: string
   }
-  caterogy: {
+  category: {
     name: string
   }
   pattern: {

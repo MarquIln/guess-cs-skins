@@ -7,9 +7,12 @@ interface ButtonProps {
 
 export function Button({ content, onClick }: ButtonProps) {
   return (
-    <button onClick={onClick} className='bg-blue-500 hover:bg-blue-600 text-white
-    font-bold py-2 px-4 rounded w-64'>
+    <button
+      onClick={onClick}
+      className="w-64 rounded bg-blue-500
+    px-4 py-2 font-bold text-white hover:bg-blue-600"
+    >
       {content}
     </button>
-  );
+  )
 }
