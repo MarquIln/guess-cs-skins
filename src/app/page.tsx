@@ -14,8 +14,8 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1)
   const [blurLevel, setBlurLevel] = useState(50)
   const minBlurLevel = 0
-  const [responses, setResponses] = useState<string[]>([])
-  const [selectedSkin, setSelectedSkin] = useState<string | null>(null)
+  const [responses, setResponses] = useState<Skin[] | string[]>([])
+  const [selectedSkin, setSelectedSkin] = useState<Skin | null>(null)
   const [correctGuess, setCorrectGuess] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
@@ -35,7 +35,7 @@ export default function Home() {
     }
   }
 
-  function handleGuessSubmit(guessSkin: string) {
+  function handleGuessSubmit(guessSkin: Skin | string) {
     const currentSkin = skins[currentPage - 1]
     if (currentSkin) {
       const correctGuess =
@@ -43,7 +43,6 @@ export default function Home() {
         ' ' +
         (currentSkin.pattern ? currentSkin.pattern.name.trim() : '') +
         (currentSkin.phase ? ' ' + currentSkin.phase.trim() : '')
-      guessSkin = guessSkin.trim()
       if (correctGuess === guessSkin) {
         setCorrectGuess(true)
         setBlurLevel(0)
@@ -54,14 +53,15 @@ export default function Home() {
         const newBlurLevel =
           blurLevel - 10 > minBlurLevel ? blurLevel - 10 : minBlurLevel
         setBlurLevel(newBlurLevel)
-        setResponses([...responses, guessSkin])
-        setSelectedSkin(guessSkin)
+        // @ts-ignore
+        setResponses((prevResponses) => [...prevResponses, guessSkin])
+        setSelectedSkin(currentSkin)
         console.log('Resposta certa era: ' + correctGuess)
       }
     }
   }
 
-  function shuffleArray(array: any[]) {
+  function shuffleArray(array: never[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
       ;[array[i], array[j]] = [array[j], array[i]]

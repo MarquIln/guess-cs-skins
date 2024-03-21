@@ -1,7 +1,9 @@
 'use client'
 
+import { Skin } from '@/types/ISkin'
+
 interface ButtonProps {
-  content: string
+  content: string | Skin
   onClick?: () => void
 }
 
@@ -12,7 +14,7 @@ export function Button({ content, onClick }: ButtonProps) {
       className="w-64 rounded bg-blue-500
     px-4 py-2 font-bold text-white hover:bg-blue-600"
     >
-      {content}
+      {typeof content === 'string' ? content : content.name}
     </button>
   )
 }

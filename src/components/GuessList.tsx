@@ -1,10 +1,11 @@
 import React from 'react'
 import { Button } from './Button'
+import { Skin } from '@/types/ISkin'
 
 interface GuessListProps {
-  guesses: string[]
+  guesses: Skin[]
   isListOpen: boolean
-  onGuessClick: (guess: string) => void
+  onGuessClick: (guess: Skin) => void
 }
 
 export function GuessList({

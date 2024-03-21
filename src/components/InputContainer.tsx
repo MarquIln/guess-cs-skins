@@ -1,17 +1,18 @@
 import { useDebounce } from '@/hooks/useDebounce'
 import { getAllSkins } from '@/services/services'
+import { Skin } from '@/types/ISkin'
 import { useEffect, useState } from 'react'
 import { GuessList } from './GuessList'
 import { Input } from './Input'
 
 interface InputContainerProps {
-  onSubmit: (response: string) => void
+  onSubmit: (response: Skin | string) => void
 }
 
 export function InputContainer({ onSubmit }: InputContainerProps) {
   const [inputValue, setInputValue] = useState('')
   const debouncedInputValue = useDebounce(inputValue, 1000)
-  const [guesses, setGuesses] = useState<string[]>([])
+  const [guesses, setGuesses] = useState<Skin[]>([])
   const [isGuessListOpen, setIsGuessListOpen] = useState(false)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
       .then((response) => {
         const skins = response.data
         const matchingGuesses = skins.filter(
-          (skin: any) =>
+          (skin: Skin) =>
             skin.pattern &&
             skin.pattern.name &&
             skin.weapon &&
@@ -41,7 +42,7 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
             ).includes(query.toLowerCase()),
         )
         setGuesses(
-          matchingGuesses.map((skin: any) => {
+          matchingGuesses.map((skin: Skin) => {
             const correctGuess =
               skin.weapon.name.trim() +
               ' ' +
@@ -71,7 +72,7 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
     setInputValue('')
   }
 
-  function handleGuessClick(guess: string) {
+  function handleGuessClick(guess: Skin) {
     onSubmit(guess)
     setIsGuessListOpen(false)
     setInputValue('')

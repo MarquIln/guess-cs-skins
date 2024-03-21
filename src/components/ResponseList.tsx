@@ -1,6 +1,8 @@
+import { Skin } from '@/types/ISkin'
+
 interface ResponseListProps {
-  responses: string[]
-  selectedSkin: string | null
+  responses: Skin[] | string[]
+  selectedSkin: Skin | null
 }
 
 export function ResponseList({ responses, selectedSkin }: ResponseListProps) {
@@ -9,12 +11,14 @@ export function ResponseList({ responses, selectedSkin }: ResponseListProps) {
       {responses.map((response, index) => (
         <div key={index} className="text-white">
           {selectedSkin && selectedSkin === response ? (
-            <span>{selectedSkin}</span>
+            <span>{selectedSkin.name}</span>
           ) : (
-            <span>{response}</span>
+            <span>
+              {typeof response === 'string' ? response : response.name}
+            </span>
           )}
         </div>
       ))}
     </div>
-  );
+  )
 }
