@@ -12,12 +12,13 @@ import { useEffect, useState } from 'react'
 export default function Home() {
   const [skins, setSkins] = useState<Skin[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [blurLevel, setBlurLevel] = useState(50)
+  const [blurLevel, setBlurLevel] = useState(40)
   const minBlurLevel = 0
   const [responses, setResponses] = useState<Skin[] | string[]>([])
   const [selectedSkin, setSelectedSkin] = useState<Skin | null>(null)
   const [correctGuess, setCorrectGuess] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const currentSkin = skins[currentPage - 1]
 
   useEffect(() => {
     getAllSkins().then((response) => {
@@ -36,7 +37,6 @@ export default function Home() {
   }
 
   function handleGuessSubmit(guessSkin: Skin | string) {
-    const currentSkin = skins[currentPage - 1]
     if (currentSkin) {
       const correctGuess =
         currentSkin.weapon.name.trim() +
@@ -53,7 +53,8 @@ export default function Home() {
         const newBlurLevel =
           blurLevel - 10 > minBlurLevel ? blurLevel - 10 : minBlurLevel
         setBlurLevel(newBlurLevel)
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         setResponses((prevResponses) => [...prevResponses, guessSkin])
         setSelectedSkin(currentSkin)
         console.log('Resposta certa era: ' + correctGuess)
@@ -85,7 +86,11 @@ export default function Home() {
         </div>
       </div>
       <div className="flex justify-center">
-        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+        <Modal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          skin={currentSkin}
+        />
       </div>
       {correctGuess && (
         <div
