@@ -1,6 +1,5 @@
-import React from 'react'
-import { Button } from './Button'
 import { Skin } from '@/types/ISkin'
+import { Button } from './Button'
 
 interface GuessListProps {
   guesses: Skin[]
@@ -19,7 +18,10 @@ export function GuessList({
     >
       {guesses.map((guess, index) => (
         <li key={index} className="w-full text-white">
-          <Button onClick={() => onGuessClick(guess)} content={guess} />
+          <Button
+            onClick={() => onGuessClick(guess)}
+            content={guess.fakeName}
+          />
         </li>
       ))}
     </ul>

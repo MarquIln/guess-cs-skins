@@ -1,5 +1,6 @@
 export type Skin = {
   name: string
+  fakeName: string
   image: string
   price: number
   weapon: {

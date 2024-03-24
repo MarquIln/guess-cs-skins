@@ -14,7 +14,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1)
   const [blurLevel, setBlurLevel] = useState(40)
   const minBlurLevel = 0
-  const [responses, setResponses] = useState<Skin[] | string[]>([])
+  const [responses, setResponses] = useState<Skin[]>([])
   const [selectedSkin, setSelectedSkin] = useState<Skin | null>(null)
   const [correctGuess, setCorrectGuess] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -36,28 +36,25 @@ export default function Home() {
     }
   }
 
-  function handleGuessSubmit(guessSkin: Skin | string) {
+  function handleGuessSubmit(guessSkin: Skin) {
     if (currentSkin) {
       const correctGuess =
         currentSkin.weapon.name.trim() +
         ' ' +
         (currentSkin.pattern ? currentSkin.pattern.name.trim() : '') +
         (currentSkin.phase ? ' ' + currentSkin.phase.trim() : '')
-      if (correctGuess === guessSkin) {
+      if (correctGuess === guessSkin.name) {
         setCorrectGuess(true)
         setBlurLevel(0)
         setTimeout(() => {
           nextPage()
-        }, 2000)
+        }, 1000)
       } else {
         const newBlurLevel =
           blurLevel - 10 > minBlurLevel ? blurLevel - 10 : minBlurLevel
         setBlurLevel(newBlurLevel)
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
         setResponses((prevResponses) => [...prevResponses, guessSkin])
         setSelectedSkin(currentSkin)
-        console.log('Resposta certa era: ' + correctGuess)
       }
     }
   }

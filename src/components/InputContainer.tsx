@@ -6,7 +6,7 @@ import { GuessList } from './GuessList'
 import { Input } from './Input'
 
 interface InputContainerProps {
-  onSubmit: (response: Skin | string) => void
+  onSubmit: (response: Skin) => void
 }
 
 export function InputContainer({ onSubmit }: InputContainerProps) {
@@ -43,12 +43,14 @@ export function InputContainer({ onSubmit }: InputContainerProps) {
         )
         setGuesses(
           matchingGuesses.map((skin: Skin) => {
-            const correctGuess =
+            skin.fakeName =
               skin.weapon.name.trim() +
               ' ' +
               skin.pattern.name.trim() +
               (skin.phase ? ' ' + skin.phase.trim() : '')
-            return correctGuess.charAt(0).toUpperCase() + correctGuess.slice(1)
+            skin.fakeName =
+              skin.fakeName.charAt(0).toUpperCase() + skin.fakeName.slice(1)
+            return skin
           }),
         )
 
