@@ -12,7 +12,9 @@ export type Skin = {
   pattern: {
     name: string
   }
+  souvenir: boolean
   collections: {
+    id: string
     name: string
   }
   rarity: {

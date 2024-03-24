@@ -1,9 +1,8 @@
 'use client'
-import { Button } from '@/components/Button'
 import { CardSkin } from '@/components/CardSkin'
 import { Header } from '@/components/Header'
+import { Hints } from '@/components/Hints'
 import { InputContainer } from '@/components/InputContainer'
-import { Modal } from '@/components/Modal'
 import { ResponseList } from '@/components/ResponseList'
 import { getAllSkins } from '@/services/services'
 import { Skin } from '@/types/ISkin'
@@ -17,7 +16,7 @@ export default function Home() {
   const [responses, setResponses] = useState<Skin[]>([])
   const [selectedSkin, setSelectedSkin] = useState<Skin | null>(null)
   const [correctGuess, setCorrectGuess] = useState<boolean>(false)
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState(false)
   const currentSkin = skins[currentPage - 1]
 
   useEffect(() => {
@@ -40,7 +39,7 @@ export default function Home() {
     if (currentSkin) {
       const correctGuess =
         currentSkin.weapon.name.trim() +
-        ' ' +
+        ' | ' +
         (currentSkin.pattern ? currentSkin.pattern.name.trim() : '') +
         (currentSkin.phase ? ' ' + currentSkin.phase.trim() : '')
       if (correctGuess === guessSkin.name) {
@@ -57,6 +56,10 @@ export default function Home() {
         setSelectedSkin(currentSkin)
       }
     }
+  }
+
+  function toggleHints() {
+    setIsOpen((prevIsOpen) => !prevIsOpen)
   }
 
   function shuffleArray(array: never[]) {
@@ -78,16 +81,18 @@ export default function Home() {
         <div className="flex justify-center">
           <ResponseList responses={responses} selectedSkin={selectedSkin} />
         </div>
-        <div className="flex justify-center py-10">
-          <Button onClick={() => setModalOpen(true)} content="Hints!" />
-        </div>
       </div>
       <div className="flex justify-center">
-        <Modal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          skin={currentSkin}
-        />
+        {isOpen ? (
+          <Hints isOpen={isOpen} skin={currentSkin} />
+        ) : (
+          <button
+            className="rounded-lg bg-gray-800 p-2 text-white"
+            onClick={toggleHints}
+          >
+            Hints!
+          </button>
+        )}
       </div>
       {correctGuess && (
         <div
