@@ -1,4 +1,5 @@
 'use client'
+import { Button } from '@/components/Button'
 import { CardSkin } from '@/components/CardSkin'
 import { Header } from '@/components/Header'
 import { Hints } from '@/components/Hints'
@@ -37,12 +38,21 @@ export default function Home() {
 
   function handleGuessSubmit(guessSkin: Skin) {
     if (currentSkin) {
-      const correctGuess =
+      let correctGuess =
         currentSkin.weapon.name.trim() +
         ' | ' +
         (currentSkin.pattern ? currentSkin.pattern.name.trim() : '') +
         (currentSkin.phase ? ' ' + currentSkin.phase.trim() : '')
-      if (correctGuess === guessSkin.name) {
+
+      let cleanedGuess = guessSkin.name.replace('★', '')
+      if (guessSkin.phase) {
+        cleanedGuess += ' ' + guessSkin.phase.trim()
+      }
+
+      correctGuess = correctGuess.replace(/\s+/g, '')
+      cleanedGuess = cleanedGuess.replace(/\s+/g, '')
+
+      if (correctGuess === cleanedGuess) {
         setCorrectGuess(true)
         setBlurLevel(0)
         setTimeout(() => {
@@ -82,16 +92,11 @@ export default function Home() {
           <ResponseList responses={responses} selectedSkin={selectedSkin} />
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center py-10">
         {isOpen ? (
           <Hints isOpen={isOpen} skin={currentSkin} />
         ) : (
-          <button
-            className="rounded-lg bg-gray-800 p-2 text-white"
-            onClick={toggleHints}
-          >
-            Hints!
-          </button>
+          <Button content={'Hints!'} onClick={toggleHints} />
         )}
       </div>
       {correctGuess && (
