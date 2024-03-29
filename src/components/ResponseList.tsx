@@ -2,53 +2,62 @@ import { Skin } from '@/types/ISkin'
 import { Card, CardBody, Text } from '@chakra-ui/react'
 
 interface ResponseListProps {
-  responses: Skin[]
+  answers: Skin[]
   selectedSkin: Skin | null
 }
 
-export function ResponseList({ responses }: ResponseListProps) {
+export function ResponseList({ answers, selectedSkin }: ResponseListProps) {
   return (
-    <div className="flex flex-wrap justify-center">
-      {responses.map((response, index) => (
-        <div key={index} className="flex">
+    <div className="flex flex-col">
+      {answers.map((answer, index) => (
+        <div key={index} className="flex flex-wrap">
           <Card
-            key={index}
-            borderRadius="10px"
-            className="hover:-translate-y m-2 w-full transform gap-2 rounded-md border border-red-800 bg-red-800 p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg"
+            className={`hover:-translate-y m-2 flex-1 transform gap-2 rounded-md border ${
+              answer.name === selectedSkin?.name
+                ? 'border-green-500 bg-green-500'
+                : 'border-red-800 bg-red-800'
+            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg`}
             color={'white'}
           >
             <CardBody>
-              <Text>{response.name}</Text>
+              <Text>{answer.name}</Text>
+            </CardBody>
+          </Card>
+
+          <Card
+            className={`hover:-translate-y m-2 flex-1 transform gap-2 rounded-md border ${
+              answer.weapon.name === selectedSkin?.name
+                ? 'border-green-500 bg-green-500'
+                : 'border-red-800 bg-red-800'
+            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg`}
+            color={'white'}
+          >
+            <CardBody>
+              <Text>{answer.weapon.name}</Text>
             </CardBody>
           </Card>
           <Card
-            key={index}
-            borderRadius="10px"
-            className="hover:-translate-y m-2 w-full transform gap-2 rounded-md border border-red-800 bg-red-800 p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg"
+            className={`hover:-translate-y m-2 flex-1 transform gap-2 rounded-md border ${
+              answer.rarity.name === selectedSkin?.name
+                ? 'border-green-500 bg-green-500'
+                : 'border-red-800 bg-red-800'
+            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg`}
             color={'white'}
           >
             <CardBody>
-              <Text>{response.weapon.name}</Text>
+              <Text>{answer.rarity.name}</Text>
             </CardBody>
           </Card>
           <Card
-            key={index}
-            borderRadius="10px"
-            className="hover:-translate-y m-2 w-full transform gap-2 rounded-md border border-red-800 bg-red-800 p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg"
+            className={`hover:-translate-y m-2 flex-1 transform gap-2 rounded-md border ${
+              answer.category.name === selectedSkin?.name
+                ? 'border-green-500 bg-green-500'
+                : 'border-red-800 bg-red-800'
+            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg`}
             color={'white'}
           >
             <CardBody>
-              <Text>{response.rarity.name}</Text>
-            </CardBody>
-          </Card>
-          <Card
-            key={index}
-            borderRadius="10px"
-            className="hover:-translate-y m-2 w-full transform gap-2 rounded-md border border-red-800 bg-red-800 p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg"
-            color={'white'}
-          >
-            <CardBody>
-              <Text>{response.category.name}</Text>
+              <Text>{answer.category.name}</Text>
             </CardBody>
           </Card>
         </div>

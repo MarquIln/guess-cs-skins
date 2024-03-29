@@ -14,7 +14,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1)
   const [blurLevel, setBlurLevel] = useState(40)
   const minBlurLevel = 0
-  const [responses, setResponses] = useState<Skin[]>([])
+  const [answers, setanswers] = useState<Skin[]>([])
   const [selectedSkin, setSelectedSkin] = useState<Skin | null>(null)
   const [correctGuess, setCorrectGuess] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -32,7 +32,7 @@ export default function Home() {
       setCurrentPage(currentPage + 1)
       setBlurLevel(50)
       setCorrectGuess(false)
-      setResponses([])
+      setanswers([])
     }
   }
 
@@ -62,7 +62,7 @@ export default function Home() {
         const newBlurLevel =
           blurLevel - 10 > minBlurLevel ? blurLevel - 10 : minBlurLevel
         setBlurLevel(newBlurLevel)
-        setResponses((prevResponses) => [...prevResponses, guessSkin])
+        setanswers((prevAnswers) => [...prevAnswers, guessSkin])
         setSelectedSkin(currentSkin)
       }
     }
@@ -89,7 +89,7 @@ export default function Home() {
           <InputContainer onSubmit={handleGuessSubmit} />
         </div>
         <div className="flex justify-center">
-          <ResponseList responses={responses} selectedSkin={selectedSkin} />
+          <ResponseList answers={answers} selectedSkin={selectedSkin} />
         </div>
       </div>
       <div className="flex justify-center py-10">
