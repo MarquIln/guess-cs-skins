@@ -14,7 +14,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1)
   const [blurLevel, setBlurLevel] = useState(40)
   const minBlurLevel = 0
-  const [answers, setanswers] = useState<Skin[]>([])
+  const [answers, setAnswers] = useState<Skin[]>([])
   const [selectedSkin, setSelectedSkin] = useState<Skin | null>(null)
   const [correctGuess, setCorrectGuess] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -32,7 +32,7 @@ export default function Home() {
       setCurrentPage(currentPage + 1)
       setBlurLevel(50)
       setCorrectGuess(false)
-      setanswers([])
+      setAnswers([])
     }
   }
 
@@ -62,7 +62,7 @@ export default function Home() {
         const newBlurLevel =
           blurLevel - 10 > minBlurLevel ? blurLevel - 10 : minBlurLevel
         setBlurLevel(newBlurLevel)
-        setanswers((prevAnswers) => [...prevAnswers, guessSkin])
+        setAnswers((prevAnswers) => [...prevAnswers, guessSkin])
         setSelectedSkin(currentSkin)
       }
     }
