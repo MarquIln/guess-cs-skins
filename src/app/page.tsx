@@ -18,23 +18,47 @@ export default function Home() {
   const [selectedSkin, setSelectedSkin] = useState<Skin | null>(null)
   const [correctGuess, setCorrectGuess] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [buttonContent, setButtonContent] = useState('Hints')
+  const [buttonAction, setButtonAction] = useState<(() => void) | undefined>(
+    undefined,
+  )
   const currentSkin = skins[currentPage - 1]
 
   useEffect(() => {
-    getAllSkins().then((response) => {
-      const shuffledSkins = shuffleArray(response.data)
-      setSkins(shuffledSkins)
-    })
+    const fetchSkins = async () => {
+      try {
+        const response = await getAllSkins()
+        const shuffledSkins = shuffleArray(response.data)
+        setSkins(shuffledSkins)
+      } catch (error) {
+        console.error('Error fetching skins:', error)
+      }
+    }
+    fetchSkins()
   }, [])
 
-  function nextPage() {
-    if (currentPage < Math.ceil(skins.length)) {
-      setCurrentPage(currentPage + 1)
-      setBlurLevel(50)
-      setCorrectGuess(false)
-      setAnswers([])
+  useEffect(() => {
+    function nextPage() {
+      if (currentPage < Math.ceil(skins.length)) {
+        setCurrentPage(currentPage + 1)
+        setBlurLevel(50)
+        setCorrectGuess(false)
+        setAnswers([])
+      }
     }
-  }
+
+    const toggleHints = () => {
+      setIsOpen((prevIsOpen) => !prevIsOpen)
+    }
+
+    if (correctGuess) {
+      setButtonContent('Next Skin!')
+      setButtonAction(() => nextPage())
+    } else {
+      setButtonContent('Hints')
+      setButtonAction(() => toggleHints())
+    }
+  }, [correctGuess, currentPage, skins.length])
 
   function handleGuessSubmit(guessSkin: Skin) {
     if (currentSkin) {
@@ -55,9 +79,6 @@ export default function Home() {
       if (correctGuess === cleanedGuess) {
         setCorrectGuess(true)
         setBlurLevel(0)
-        setTimeout(() => {
-          nextPage()
-        }, 1000)
       } else {
         const newBlurLevel =
           blurLevel - 10 > minBlurLevel ? blurLevel - 10 : minBlurLevel
@@ -66,10 +87,6 @@ export default function Home() {
         setSelectedSkin(currentSkin)
       }
     }
-  }
-
-  function toggleHints() {
-    setIsOpen((prevIsOpen) => !prevIsOpen)
   }
 
   function shuffleArray(array: never[]) {
@@ -96,7 +113,7 @@ export default function Home() {
         {isOpen ? (
           <Hints isOpen={isOpen} skin={currentSkin} />
         ) : (
-          <Button content={'Hints!'} onClick={toggleHints} />
+          <Button content={buttonContent} onClick={buttonAction} />
         )}
       </div>
       {correctGuess && (

@@ -1,19 +1,39 @@
 import { Skin } from '@/types/ISkin'
 import { useEffect, useMemo, useState } from 'react'
 import { Button } from './Button'
+
+interface Hint {
+  label: string
+  value: string
+}
+
 interface HintsProps {
   isOpen: boolean
   skin: Skin | null
 }
 
+function HintItem({ hint }: { hint: string }) {
+  return <div className="flex justify-center py-2 text-white">{hint}</div>
+}
+
+function HintList({ hints }: { hints: string[] }) {
+  return (
+    <div>
+      {hints.map((hint, index) => (
+        <HintItem key={index} hint={hint} />
+      ))}
+    </div>
+  )
+}
+
 export function Hints({ isOpen, skin }: HintsProps) {
   const [displayedHints, setDisplayedHints] = useState<string[]>([])
 
-  const hints = useMemo(
+  const hints: Hint[] = useMemo(
     () => [
-      { label: 'Has Souvenir?', value: skin?.souvenir ? '✅' : '❌' },
-      { label: 'Rarity', value: skin?.rarity.name },
-      { label: 'Category', value: skin?.category.name },
+      { label: 'Has Souvenir?', value: skin?.souvenir ? 'Yes' : 'No' },
+      { label: 'Rarity', value: skin?.rarity.name || '' },
+      { label: 'Category', value: skin?.category.name || '' },
     ],
     [skin],
   )
@@ -35,36 +55,17 @@ export function Hints({ isOpen, skin }: HintsProps) {
     }
   }
 
+  const isLastHint = displayedHints.length === hints.length
+  const buttonText = isLastHint
+    ? 'There are no more hints 😳'
+    : 'Show next hint'
+
   return (
     <div>
       {skin && isOpen && (
         <div>
-          {displayedHints.length < hints.length ? (
-            <div>
-              <Button onClick={showNextHint} content={'Show next hint'} />
-              <div>
-                {displayedHints.map((hint, index) => (
-                  <div className="flex justify-center py-2" key={index}>
-                    {hint}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div>
-              <Button
-                onClick={showNextHint}
-                content={'There are no more hints 😳'}
-              />
-              <div>
-                {displayedHints.map((hint, index) => (
-                  <div className="flex justify-center py-2" key={index}>
-                    {hint}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <Button onClick={showNextHint} content={buttonText} />
+          <HintList hints={displayedHints} />
         </div>
       )}
     </div>

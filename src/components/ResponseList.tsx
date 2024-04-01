@@ -16,7 +16,7 @@ export function ResponseList({ answers, selectedSkin }: ResponseListProps) {
               answer.name === selectedSkin?.name
                 ? 'border-green-500 bg-green-500'
                 : 'border-red-800 bg-red-800'
-            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg`}
+            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:shadow-lg`}
             color={'white'}
           >
             <CardBody>
@@ -29,7 +29,7 @@ export function ResponseList({ answers, selectedSkin }: ResponseListProps) {
               answer.weapon.name === selectedSkin?.weapon.name
                 ? 'border-green-500 bg-green-500'
                 : 'border-red-800 bg-red-800'
-            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg`}
+            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:shadow-lg`}
             color={'white'}
           >
             <CardBody>
@@ -41,7 +41,7 @@ export function ResponseList({ answers, selectedSkin }: ResponseListProps) {
               answer.rarity.name === selectedSkin?.rarity.name
                 ? 'border-green-500 bg-green-500'
                 : 'border-red-800 bg-red-800'
-            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg`}
+            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:shadow-lg`}
             color={'white'}
           >
             <CardBody>
@@ -53,7 +53,7 @@ export function ResponseList({ answers, selectedSkin }: ResponseListProps) {
               answer.category.name === selectedSkin?.category.name
                 ? 'border-green-500 bg-green-500'
                 : 'border-red-800 bg-red-800'
-            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:border-red-700 hover:bg-red-700 hover:shadow-lg`}
+            } p-2 text-center text-white shadow-md transition duration-300 ease-in-out hover:shadow-lg`}
             color={'white'}
           >
             <CardBody>
