@@ -19,7 +19,7 @@ export function Input({ value, onChange, onEnterPress }: InputProps) {
   return (
     <input
       type="text"
-      placeholder="Chute qual skin você acha que é: "
+      placeholder="Your answer here..."
       value={value}
       onChange={handleInputChange}
       onKeyDown={handleKeyDown}

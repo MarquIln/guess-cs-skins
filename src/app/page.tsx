@@ -90,7 +90,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-700">
-      <Header name="Advinhe a skin do dia!" />
+      <Header name="Guess Skins!" />
       <div className="container mx-auto flex-grow p-4">
         <CardSkin skins={skins} page={currentPage} blurLevel={blurLevel} />
         <div className="flex justify-center">
