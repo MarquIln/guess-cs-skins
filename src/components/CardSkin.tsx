@@ -11,7 +11,7 @@ export function CardSkin({ skins, page, blurLevel }: CardSkinProps) {
   }, [page, skins])
 
   return (
-    <div className="flex justify-center">
+    <div className="pointer-events-none flex justify-center">
       <div className="rounded-lg bg-gray-900">
         <div>
           <img
