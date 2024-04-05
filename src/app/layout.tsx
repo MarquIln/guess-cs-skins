@@ -16,7 +16,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-gray-700">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6213671632019026"
+          crossOrigin="anonymous"
+        ></script>
+      </body>
     </html>
   )
 }
